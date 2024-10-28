@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ronniemoore-wiz-tasky
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ronniemoore-wiz-tasky
+  template:
+    metadata:
+      labels:
+        app: ronniemoore-wiz-tasky
+    spec:
+      serviceAccountName: ronniemoore-wiz-tasky-serviceaccount
+      containers:
+      - name: ronniemoore-wiz-tasky
+        image: "110299713907.dkr.ecr.us-east-1.amazonaws.com/ronniemoore-wiz-tasky:latest"
+        tty: true
+        env:
+        - name: MONGODB_URI
+          value: "mongodb://adminUser:securePassword@192.168.2.112:27017/admin"
+      imagePullSecrets:
+      - name: ecr-registry-secret
